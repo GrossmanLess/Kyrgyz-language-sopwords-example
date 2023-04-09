@@ -1,0 +1,42 @@
+#Here I process the word doc file to txt format, in order to
+#read it in Jupyter Notebook
+import docx2txt
+my_text = docx2txt.process("path/to/your/file")
+print(my_text)
+
+#Here I get rid of punctuation and make lower case letters
+import re
+raw_str = my_text
+regexp = r'[^\w\s]'
+new_str = re.sub(regexp, '', raw_str)
+new_str = new_str.lower()
+print(new_str)
+
+#Here I upload the dataset with stopwords from my page in Kaggle
+#Name KYR is the column name in the dataset, which only is needed
+#Then I make the words lower case. 
+df_kyr = pd.read_csv('path/to/your/stopwords')
+df_kyr = df_kyr.KYR.tolist()
+df_kyr = [x.lower() for x in df_kyr]
+
+#Here I import and use two libraries. I add the list of Kyrgyz
+#stopwords into the collection of Russian stopwords, embedded 
+#to nltk. Then with print() I see whether it works or no. 
+import gensim
+from gensim.utils import simple_preprocess
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+stop_words = stopwords.words('russian')
+stop_words.extend(df_kyr)
+print(stop_words)
+
+#Here I tokenize the input data. With print() I can see
+#how the operation works.
+from nltk.tokenize import word_tokenize
+text_tokens = word_tokenize(new_str)
+print(text_tokens)
+
+#Finally I remove Kyrgyz stopwords
+remove_stopwords = [words for words in text_tokens if not words in stop_words]
+print(remove_stopwords)
