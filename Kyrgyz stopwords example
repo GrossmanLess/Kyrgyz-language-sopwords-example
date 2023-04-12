@@ -22,8 +22,7 @@ df_kyr = [x.lower() for x in df_kyr]
 #Here I import and use two libraries. I add the list of Kyrgyz
 #stopwords into the collection of Russian stopwords, embedded 
 #to nltk. Then with print() I see whether it works or no. 
-import gensim
-from gensim.utils import simple_preprocess
+
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
